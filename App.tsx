@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: 'black',
     fontSize: 20,
-    fontFamily: 'Montserrat-SemiBold',
+    fontFamily: 'Montserrat-Bold',
     textDecorationLine: 'underline',
   },
   buttonContainer: {
