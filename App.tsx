@@ -13,8 +13,8 @@ import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {RootState, AppDispatch} from './src/components/store';
 import { addToCart, incrementQuantity, decrementQuantity } from './src/components/cartSlice';
 import {BlurView} from '@react-native-community/blur';
-
 // import StarRating from 'react-native-star-rating';
+import StarRating from 'react-native-star-rating-widget';
 
 interface Rating {
   rate: number;
@@ -59,14 +59,16 @@ const App: React.FC = () => {
       <Image source={{uri: item.image}} style={styles.productImage} />
       <View style={styles.productDetails}>
         <Text style={styles.itemTitle}>{item.title}</Text>
-        {/* <StarRating
-          disabled={true}
-          starSize={20}
-          maxStars={5}
-          rating={item.rating.rate}
-          fullStarColor="gold"
-          emptyStarColor="#e0e0e0"
-        /> */}
+        <View style={{marginHorizontal:-10}}>
+        <StarRating
+        starSize={20}
+        maxStars={5}
+        rating={item.rating.rate}
+        fullStarColor="gold"
+        emptyStarColor="#e0e0e0"
+        starStyle={styles.star} 
+      />
+      </View>
 
         <Text style={styles.itemTitle}>{item.rating.count}</Text>
         <Text style={styles.itemPrice}>${item.price}</Text>
@@ -152,17 +154,20 @@ const App: React.FC = () => {
       <View style={styles.cartContainer}>
         {cart.map(item => (
           <View key={item.id} style={styles.cartItem}>
-            <Text>
-              {item.title} (x{item.quantity})
+            <Text style={styles.cartItemText}>
+              {item.title}
             </Text>
             <View style={styles.quantityControls}>
               <TouchableOpacity
-                onPress={() => dispatch(incrementQuantity(item.id))}>
-                <Text>+</Text>
+                onPress={() => dispatch(incrementQuantity(item.id))}
+                style={styles.quantityButton}>
+                <Text style={styles.quantityButtonText}>+</Text>
               </TouchableOpacity>
+              <Text style={styles.quantityText}>{item.quantity}</Text>
               <TouchableOpacity
-                onPress={() => dispatch(decrementQuantity(item.id))}>
-                <Text>-</Text>
+                onPress={() => dispatch(decrementQuantity(item.id))}
+                style={styles.quantityButton}>
+                <Text style={styles.quantityButtonText}>-</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -183,8 +188,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  star: {
+    marginHorizontal: 0, 
+    paddingHorizontal: 0, 
+  },
   header: {
-    // backgroundColor: 'red ',
     backgroundColor: '#5EDBDB',
     padding: 20,
     alignItems: 'center',
@@ -193,7 +201,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: 'black',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-SemiBold',
     textDecorationLine: 'underline',
   },
   buttonContainer: {
@@ -220,12 +228,12 @@ const styles = StyleSheet.create({
   cartText: {
     color: 'white',
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-SemiBold',
   },
   closeText: {
     color: 'black',
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-SemiBold',
   },
   productContainer: {
     flexDirection: 'row',
@@ -251,6 +259,7 @@ const styles = StyleSheet.create({
   },
   itemCategory: {
     fontSize: 16,
+    fontFamily:'Montserrat-Medium',
     color: '#808080',
   },
   productDetails: {
@@ -259,8 +268,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    // padding: 20,
-    // backgroundColor: 'white',
   },
   subcontainer: {
     flex: 1,
@@ -280,38 +287,36 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   productTitle: {
-    fontWeight: 'bold',
     fontSize: 18,
+    fontFamily:'Montserrat-SemiBoldd',
     marginVertical: 10,
     color: 'black',
     marginLeft: 10,
   },
   productMessage: {
     fontSize: 18,
+    fontFamily:'Montserrat-Medium',
     marginVertical: 10,
     color: 'black',
     flexShrink: 1,
     marginRight: 10,
-    // textAlign: 'center',
   },
   productDescription: {
     fontSize: 18,
     marginVertical: 10,
     color: 'black',
     marginLeft: 10,
-    // textAlign: 'center',
+    fontFamily:'Montserrat-Medium',
   },
   itemTitle: {
-    // fontWeight: 'bold',
     fontSize: 18,
-    // marginVertical: 10,
+    fontFamily:'Montserrat-Medium',
     color: 'black',
   },
   itemPrice: {
-    fontWeight: 'bold',
     fontSize: 18,
-    // marginVertical: 10,
     color: 'black',
+    fontFamily:'Montserrat-Bold',
   },
 
   buttonRow: {
@@ -332,5 +337,29 @@ const styles = StyleSheet.create({
   quantityControls: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+    marginHorizontal: 5,
   },
+  quantityButton: {
+    padding: 10,
+  },
+  quantityButtonText: {
+    fontSize: 18,
+    color: 'black',
+    fontFamily:'Montserrat-SemiBold'
+  },
+  cartItemText: {
+    flex: 1,
+    fontSize: 16,
+    fontFamily:'Montserrat-Medium',
+    color: 'black',
+  },
+  quantityText: {
+    fontSize: 16,
+    color: 'black',
+    fontFamily:'Montserrat-Medium',
+  },
+
+
 });
